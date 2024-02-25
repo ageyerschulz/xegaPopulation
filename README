@@ -1,0 +1,61 @@
+# The R script xegaPopulation.R
+
+The directory xegaPopulation contains the implementation 
+of the functions of the population layer of 
+a genetic algorithm. 
+
+The R script xegaPopulation.R generates
+
+1. the man pages of the package.
+2. the pdf documentation of the package.
+3. the compilation and installation of the package.
+   (You  must adapt the variables path and pName
+    in the script xegaPopulation.R:
+
+    path<-"~/dev/iaa/genetic/xega/"
+    pName<-"xegaPopulation"
+
+    to the directory where you copy the package.
+
+You need to install the R-package devtools for this R script.
+
+There are two ways to use the code:
+
+1. Change into the R directory which contains the code, start R and load all code files:
+
+source("xegaPopulation.R")
+
+Note that the package xegaPopulation provides the functions of the population 
+layer to all genetic algorithms of the family sgX:
+sga, sgp, sgPerm, (and  sge, sgde).
+
+Use the pdf-Manual! 
+
+2. Adapt the path in xegaPopulation.R and install the library xegaPopulation:
+
+Rscript xegaPopulation.R
+
+Restart R and
+
+library(xegaPopulation)
+
+You get all elements of the package by
+
+xegaPopulation::
+
+and pressing the tabulator.
+
+You get the man page by e.g 
+
+?NextPopulation
+
+or 
+
+help(NextPopulation)
+
+All examples given on a man page can be executed by
+
+example(NextPopulation)
+
+Note that man pages and examples are only available, if you install 
+the package as a library.
