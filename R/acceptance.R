@@ -184,30 +184,30 @@ AcceptIVMetropolis<-function(OperatorPipeline, gene, lF)
 
 #' Metropolis acceptance probability.
 #'
-#' @param d     Distance between the fitness of the old and the new gene.
-#' @param beta  Constant.
-#' @param T     Temperature.
+#' @param d            Distance between the fitness of the old and the new gene.
+#' @param beta         Constant.
+#' @param temperature  Temperature.
 #'
 #' @return  Acceptance probability.  
 #'
 #' @family Diagnostic
 #'
 #' @examples
-#' MetropolisAcceptanceProbability(d=0, beta=1, T=10)
-#' MetropolisAcceptanceProbability(d=1, beta=1, T=10)
+#' MetropolisAcceptanceProbability(d=0, beta=1, temperature=10)
+#' MetropolisAcceptanceProbability(d=1, beta=1, temperature=10)
 #'@export
-MetropolisAcceptanceProbability<-function(d, beta, T)
+MetropolisAcceptanceProbability<-function(d, beta, temperature)
 {
-	exp(-d*beta/T)
+	exp(-d*beta/temperature)
 }
 
 #' Metropolis acceptance probability table.
 #'
-#' @param d     Distance between the fitness of the old and the new gene.
-#' @param beta  Constant.
-#' @param T     Temperature.
-#' @param alpha Cooling constant in [0, 1].  
-#' @param steps Number of steps.
+#' @param d            Distance between the fitness of the old and the new gene.
+#' @param beta         Constant.
+#' @param temperature  Temperature.
+#' @param alpha        Cooling constant in [0, 1].  
+#' @param steps        Number of steps.
 #'
 #' @return Data frame with the columns alpha, beta, temperature, 
 #'         d (distance between fitness), and probability of acceptance.
@@ -215,17 +215,17 @@ MetropolisAcceptanceProbability<-function(d, beta, T)
 #' @family Diagnostic
 #'
 #' @examples
-#' MetropolisTable(d=2, beta=2, T=10, alpha=0.99, steps=10)
+#' MetropolisTable(d=2, beta=2, temperature=10, alpha=0.99, steps=10)
 #'@export
-MetropolisTable<-function(d=1, beta=2, T=1000, alpha=0.9, steps=1000)
+MetropolisTable<-function(d=1, beta=2, temperature=1000, alpha=0.9, steps=1000)
 {
 	df<-data.frame(matrix(ncol=5, nrow=steps))
 	colnames(df)<-c("alpha", "beta", "Temperature", "d", "P(Accept)")
         for (i in (1:steps))
 	{
-          df[i,]<-c(alpha, beta, T, d, 
-		    MetropolisAcceptanceProbability(d, beta, T))
-              T<-alpha*T	
+          df[i,]<-c(alpha, beta, temperature, d, 
+		    MetropolisAcceptanceProbability(d, beta, temperature))
+              temperature<-alpha*temperature	
 	}
 	return(df)
 }

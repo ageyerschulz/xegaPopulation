@@ -13,11 +13,12 @@ Description: This collection of gene representation-independent
              The population layer consists of functions for initializing,
              logging, observing, evaluating a population of genes, 
              as well as of computing the next population. 
-             Parallelization of the evaluation of a population of genes
-             is by execution models for "MultiCore" and "Cluster" 
-             processing as well as by integrating the execution model 
-             "FutureApply" which is externally configurable as recommended by
-             Bengtsson (2021) <doi:10.32614/RJ-2021-048>.
+             For parallel evaluation of a population of genes
+             4 execution models - named Sequential, MultiCore, 
+             FutureApply, and Cluster - are provided. 
+             They are implemented by configuring the list apply function.
+             The execution model FutureApply can be externally configured 
+             as recommended by Bengtsson (2021) <doi:10.32614/RJ-2021-048>.
              Configurable acceptance rules and cooling schedules
              (see Kirkpatrick, S., Gelatt, C. D. J, and Vecchi, M. P. (1983)
              <doi:10.1126/science.220.4598.671>, and 
@@ -33,7 +34,7 @@ Encoding: UTF-8
 LazyData: false
 RoxygenNote: 7.2.3
 Depends: R (>= 4.0.0), parallel, future.apply, utils, stats
-Suggests: testthat (>= 3.0.0)
+Suggests: testthat (>= 3.0.0), future, parallelly
 Imports:
 	xegaGaGene,
         xegaSelectGene

@@ -12,6 +12,7 @@ test_that("AcceptNewGene OK",
 	  g2<-InitGene(lFxegaGaGene)
 	  g2$evalFail<-TRUE
           expect_identical(AcceptNewGene(id, g1, lFxegaGaGene), g1)
+          # Raises error and ignores it!
           expect_identical(AcceptNewGene(id, g2, lFxegaGaGene), g2)
           }
 )
@@ -24,6 +25,7 @@ test_that("AcceptBest OK",
           lFfail<-lFxegaGaGene
           lFfail$penv$f<-function(parm, gene=0, lF=0) { "a"+sum(parm^{2})/0} 
           lFfail$CWorstFitness<-function() {-1000}
+          # Raises error and ignores it!
 	  g2<-AcceptBest(OPpipe1, g1, lFfail)
 	  g3<-AcceptBest(OPpipe1, g1, lFxegaGaGene)
 	  g4<-AcceptBest(OPpipe1, g1, lFxegaGaGene)
@@ -48,6 +50,7 @@ test_that("AcceptMetropolis OK",
           lFfail<-lFxegaGaGene
           lFfail$penv$f<-function(parm, gene=0, lF=0) { "a"+sum(parm^{2})/0}
           lFfail$CWorstFitness<-function() {-1000}
+          # Raises error and ignores it!
           g2<-AcceptMetropolis(OPpipe1, g1, lFfail)
 	  g3<-AcceptMetropolis(OPpipe1, g1, lFxegaGaGene)
 	  g4<-AcceptMetropolis(OPpipe1, g1, lFxegaGaGene)
@@ -71,6 +74,7 @@ test_that("AcceptIVMetropolis OK",
           lFfail<-lFxegaGaGene
           lFfail$penv$f<-function(parm, gene=0, lF=0) { "a"+sum(parm^{2})/0}
           lFfail$CWorstFitness<-function() {-1000}
+          # Raises error and ignores it!
           g2<-AcceptIVMetropolis(OPpipe1, g1, lFfail)
           g3<-AcceptIVMetropolis(OPpipe1, g1, lFxegaGaGene)
           g4<-AcceptIVMetropolis(OPpipe1, g1, lFxegaGaGene)
@@ -101,7 +105,7 @@ test_that("MetropolisTable OK",
 	  b<-c(0.6703200, 0.6676171, 0.6648980, 
 	       0.6621626, 0.6594111, 0.6566433, 0.6538594,
                0.6510594, 0.6482432, 0.6454110)	       
-	  a<-MetropolisTable(d=2, beta=2, T=10, alpha=0.99, steps=10)
+	  a<-MetropolisTable(d=2, beta=2, temperature=10, alpha=0.99, steps=10)
           expect_equal(a[,5], b,
 	  tolerance=0.0001)
           }

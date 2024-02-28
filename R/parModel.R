@@ -37,12 +37,14 @@
 #' 
 #' @family Execution Model
 #' 
-#' @examples 
-#' \dontrun{
+#' @examples
+#' library(parallelly) 
+#' if (supportsMulticore()){
 #' lFxegaGaGene$Cores<-function() {2}
 #' pop<-xegaInitPopulation(1000, lFxegaGaGene)
-#' MClapply(pop, lFxegaGaGene$EvalGene, lFxegaGaGene)
+#' popnew<-MClapply(pop, lFxegaGaGene$EvalGene, lFxegaGaGene)
 #' }
+#'
 #' @importFrom parallel mclapply
 #' @importFrom parallel detectCores
 #' @export
@@ -90,13 +92,11 @@ MClapply<-function(pop, EvalGene, lF) # nocov start
 #' @family Execution Model
 #'
 #' @examples 
-#' \dontrun{
 #' pop<-xegaInitPopulation(1000, lFxegaGaGene)
 #' library(future)
 #' plan(multisession, workers=2)
-#' futureLapply(pop, lFxegaGaGene$EvalGene, lFxegaGaGene)
+#' popnew<-futureLapply(pop, lFxegaGaGene$EvalGene, lFxegaGaGene)
 #' plan(sequential)
-#' }
 #'
 #' @importFrom future.apply future_lapply
 #' @export
@@ -124,9 +124,14 @@ futureLapply<-function(pop, EvalGene, lF) # nocov start
 #' @family Execution Model
 #'
 #' @examples 
-#' \dontrun{
+#' parm<-function(x) {function() {x}}
 #' pop<-xegaInitPopulation(1000, lFxegaGaGene)
-#' }
+#' library(parallel)
+#' clus<-makeCluster(spec=c("localhost", "localhost"), master="localhost", 
+#'                             port=1250, homogeneous=TRUE)
+#' lFxegaGaGene$cluster<-parm(clus)
+#' popnew<-PparLapply(pop, lFxegaGaGene$EvalGene, lFxegaGaGene)
+#' stopCluster(clus)
 #'
 #' @importFrom parallel  clusterSetRNGStream
 #' @importFrom parallel  parLapply
@@ -134,7 +139,6 @@ futureLapply<-function(pop, EvalGene, lF) # nocov start
 PparLapply<-function(pop, EvalGene, lF) # nocov start
 {       z<-runif(1)
         parallel::clusterSetRNGStream(lF$cluster(), NULL) # not reproducible.
-        print(lF$cluster())
 	parallel::parLapply(lF$cluster(), pop, 
 		    EvalGene, 
 		    lF=lF)
