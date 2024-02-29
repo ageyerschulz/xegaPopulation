@@ -16,7 +16,7 @@ Description: This collection of gene representation-independent
              For parallel evaluation of a population of genes
              4 execution models - named Sequential, MultiCore, 
              FutureApply, and Cluster - are provided. 
-             They are implemented by configuring the list apply function.
+             They are implemented by configuring the 'lapply()' function.
              The execution model FutureApply can be externally configured 
              as recommended by Bengtsson (2021) <doi:10.32614/RJ-2021-048>.
              Configurable acceptance rules and cooling schedules
