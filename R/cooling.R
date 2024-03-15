@@ -269,7 +269,7 @@ if (method=="PowerAdditive") {f<- PowerAdditiveCooling}
 if (method=="ExponentialAdditive") {f<- ExponentialAdditiveCooling}
 if (method=="TrigonometricAdditive") {f<- TrigonometricAdditiveCooling}
 if (!exists("f", inherits=FALSE))
-        {stop("Acceptance label ", method, " does not exist")}
+        {stop("Cooling label ", method, " does not exist")}
 return(f)
 }
 

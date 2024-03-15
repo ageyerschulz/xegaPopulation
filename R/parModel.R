@@ -157,7 +157,7 @@ PparLapply<-function(pop, EvalGene, lF) # nocov start
 #' @details
 #' Currently we support the following parallelization models:
 #' \enumerate{
-#' \item "Sequential": Uses \code{base::apply()}. (Default).
+#' \item "Sequential": Uses \code{base::lapply()}. (Default).
 #' \item "MultiCore": Uses \code{parallel::mclapply()}. 
 #' \item "FutureApply": Uses \code{future.apply::future_lapply()}
 #'                    Plans must be set up and
