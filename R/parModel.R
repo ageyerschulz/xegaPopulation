@@ -376,9 +376,20 @@ PparLapplyHet<-function(pop, EvalGene, lF) # nocov start
 #' The execution model \strong{"Cluster"} allows the configuration of 
 #' master-slave processing on local and remote machines.
 #'
+#' For evaluating tasks with highly variable execution times, 
+#' it is recommended to use the corresponding heterogenous 
+#' execution models which assign one task per computing node 
+#' and start a new task to a node as soon as his task is finished.  
+#' These execution models are "MultiCoreHet", "FutureApplyHet", and
+#' "ClusterHet". Note that the communication and synchronization 
+#' overhead of these execution models is substantially higher than 
+#' for the homogenous execution models. 
+#'
 #' @param method   The label of the execution model: 
-#'                  "Sequential" | "MultiCore" | "MultiCoreHet" |
-#'                  "FutureApply" |  "Cluster".
+#'                  "Sequential" | 
+#'                  "MultiCore" | "MultiCoreHet" |
+#'                  "FutureApply" |  "FutureApplyHet" |
+#'                  "Cluster" | "ClusterHet" .
 #'
 #' @return A function with the same result as the \code{lapply()}-function.  
 #'
