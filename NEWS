@@ -19,3 +19,7 @@ Version 1.0.0.3 (2024-07-10)
         PparLapplyHet() added. For tasks with a high variance of 
         execution times.
 
+- ApplyFactory:
+        futureLapplyHet() added. For tasks with a high variance of 
+        execution times.
+

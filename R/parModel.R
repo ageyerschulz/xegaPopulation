@@ -155,6 +155,52 @@ futureLapply<-function(pop, EvalGene, lF) # nocov start
  future.apply::future_lapply(pop, EvalGene, lF=lF, future.seed=TRUE)
 } # nocov end
 
+#' Future apply of R-package \code{future.apply} configured
+#' for a tasks with heterogenous execution times.
+#'
+#' @description 
+#' The \code{lapply()} function is redefined as as 
+#' \code{future.apply::future_lapply()}.
+#' 
+#' Henrik Bengtsson recommends that the configuration of the 
+#' parallel/distributed programming environment should be kept 
+#' outside the package and left to the user. 
+#' The advantage is that the user may take advantage of all 
+#' parallel/distributed available backends for the Future API.
+#' 
+#' @details 
+#'   This configuration has an increased communication and 
+#'   synchronization overhead.
+#' 
+#' @param pop        Population of genes.
+#' @param EvalGene   Function for evaluating a gene.
+#' @param lF         Local function factory which provides 
+#'                    all functions needed in \code{EvalGene}.
+#'
+#' @return Fitness vector.
+#' 
+#' @references 
+#' Bengtsson H (2021). “A Unifying Framework for Parallel and 
+#' Distributed Processing in R using Futures.” 
+#' The R Journal, 13(2), 208–227. <doi:10.32614/RJ-2021-048>
+#'
+#' @family Execution Model
+#'
+#' @examples 
+#' pop<-xegaInitPopulation(30, lFxegaGaGene)
+#' library(future)
+#' plan(multisession, workers=2)
+#' popnew<-futureLapplyHet(pop, lFxegaGaGene$EvalGene, lFxegaGaGene)
+#' plan(sequential)
+#'
+#' @importFrom future.apply future_lapply
+#' @export
+futureLapplyHet<-function(pop, EvalGene, lF) # nocov start
+{
+ future.apply::future_lapply(pop, EvalGene, lF=lF, 
+          future.seed=TRUE, future.chunk.size=NULL, future.scheduling=FALSE)
+} # nocov end
+
 #' uses parLapply of library parallel for using workers on 
 #' machines in a local network. 
 #'
@@ -344,6 +390,7 @@ if (method=="Sequential") {f<-base::lapply}
 if (method=="MultiCore") {f<-MClapply}
 if (method=="MultiCoreHet") {f<-MClapplyHet}
 if (method=="FutureApply") {f<-futureLapply}
+if (method=="FutureApplyHet") {f<-futureLapplyHet}
 if (method=="Cluster") {f<-PparLapply}
 if (method=="ClusterHet") {f<-PparLapplyHet}
 if (!exists("f", inherits=FALSE))
