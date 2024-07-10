@@ -16,7 +16,7 @@
 #' The evaluation of the fitness of the genes of the population
 #' is distributed to one worker on each core of the CPU of the 
 #' local machine.
-#' The package of \code{parallel} of base R is used.
+#' The package \code{parallel} of base R is used.
 #' The number of cores is provided by \code{lF$Cores}. 
 #' 
 #' @details 
@@ -24,7 +24,8 @@
 #' \itemize{
 #' \item \code{parallel::mclapply()} assumes that each function evaluation 
 #'       needs approximately the same time.
-#' \item Best results are obtained if \code{popsize} modulo \code{cores-1} is 0.
+#' \item Best results are obtained if 
+#'       \code{popsize} modulo \code{cores-1} is \code{0}.
 #' \item Does not work on Windows.
 #' }
 #' 
@@ -54,6 +55,55 @@ MClapply<-function(pop, EvalGene, lF) # nocov start
 		    EvalGene, 
 		    lF=lF, 
 		    mc.cores=max(1, lF$Cores()),
+                    mc.set.seed = TRUE)
+} # nocov end
+
+#' MultiCore apply of library parallel for heterogenous tasks.
+#'
+#' @description 
+#' The evaluation of the fitness of the genes of the population
+#' is distributed to one worker on each core of the CPU of the 
+#' local machine.
+#' The package \code{parallel} of base R is used.
+#' The number of cores is provided by \code{lF$Cores}. 
+#' 
+#' @details 
+#' Be aware that
+#' \itemize{
+#' \item \code{parallel::mclapply()} assumes that each function evaluation 
+#'       needs approximately the same time.
+#' \item Best results are obtained if 
+#'       \code{popsize} modulo \code{cores-1} is \code{0}.
+#' \item Does not work on Windows.
+#' }
+#' 
+#' @param pop        Population of genes.
+#' @param EvalGene   Function for evaluating a gene.
+#' @param lF         Local function configuration which provides 
+#'                    all functions needed in \code{EvalGene()}.
+#'
+#' @return Fitness vector.
+#' 
+#' @family Execution Model
+#' 
+#' @examples
+#' library(parallelly) 
+#' if (supportsMulticore()){
+#' lFxegaGaGene$Cores<-function() {2}
+#' pop<-xegaInitPopulation(1000, lFxegaGaGene)
+#' popnew<-MClapplyHet(pop, lFxegaGaGene$EvalGene, lFxegaGaGene)
+#' }
+#'
+#' @importFrom parallel mclapply
+#' @importFrom parallel detectCores
+#' @export
+MClapplyHet<-function(pop, EvalGene, lF) # nocov start
+{       # z<-runif(1)
+	parallel::mclapply(pop, 
+		    EvalGene, 
+		    lF=lF, 
+		    mc.cores=max(1, lF$Cores()),
+                    mc.preschedule=FALSE,
                     mc.set.seed = TRUE)
 } # nocov end
 
@@ -144,6 +194,44 @@ PparLapply<-function(pop, EvalGene, lF) # nocov start
 		    lF=lF)
 } # nocov end
 
+#' uses parLapplyLB of library parallel for using workers on 
+#' machines in a local network. 
+#'
+#' @section Warning:
+#'
+#' This section has not been properly tested.
+#' Random number generation?
+#' Examples?
+#'
+#' @param pop        a population of genes.
+#' @param EvalGene   the function for evaluating a gene.
+#' @param lF          the local function factory which provides
+#'                    all functions needed in \code{EvalGene}.
+#'
+#' @return Fitness vector.
+#'
+#' @family Execution Model
+#'
+#' @examples 
+#' parm<-function(x) {function() {x}}
+#' pop<-xegaInitPopulation(1000, lFxegaGaGene)
+#' library(parallel)
+#' clus<-makeCluster(spec=c("localhost", "localhost"), master="localhost", 
+#'                             port=1250, homogeneous=TRUE)
+#' lFxegaGaGene$cluster<-parm(clus)
+#' popnew<-PparLapplyHet(pop, lFxegaGaGene$EvalGene, lFxegaGaGene)
+#' stopCluster(clus)
+#'
+#' @importFrom parallel  clusterSetRNGStream
+#' @importFrom parallel  parLapply
+#' @export
+PparLapplyHet<-function(pop, EvalGene, lF) # nocov start
+{       z<-runif(1)
+        parallel::clusterSetRNGStream(lF$cluster(), NULL) # not reproducible.
+	parallel::parLapplyLB(lF$cluster(), pop, 
+		    EvalGene, 
+		    lF=lF)
+} # nocov end
 # to export data: see parallel::clusterExport
 
 #' Configure the the execution model for gene evaluation.
@@ -159,6 +247,9 @@ PparLapply<-function(pop, EvalGene, lF) # nocov start
 #' \enumerate{
 #' \item "Sequential": Uses \code{base::lapply()}. (Default).
 #' \item "MultiCore": Uses \code{parallel::mclapply()}. 
+#'                    For tasks with approximately the same execution time.
+#' \item "MultiCoreHet": Uses \code{parallel::mclapply()}. 
+#'                    For tasks with a high variance of execution times.
 #' \item "FutureApply": Uses \code{future.apply::future_lapply()}
 #'                    Plans must be set up and
 #'                    worker processes must be stopped.
@@ -240,7 +331,7 @@ PparLapply<-function(pop, EvalGene, lF) # nocov start
 #' master-slave processing on local and remote machines.
 #'
 #' @param method   The label of the execution model: 
-#'                  "Sequential" | "MultiCore" | 
+#'                  "Sequential" | "MultiCore" | "MultiCoreHet" |
 #'                  "FutureApply" |  "Cluster".
 #'
 #' @return A function with the same result as the \code{lapply()}-function.  
@@ -251,8 +342,10 @@ PparLapply<-function(pop, EvalGene, lF) # nocov start
 ApplyFactory<- function(method="Sequential") {
 if (method=="Sequential") {f<-base::lapply}
 if (method=="MultiCore") {f<-MClapply}
+if (method=="MultiCoreHet") {f<-MClapplyHet}
 if (method=="FutureApply") {f<-futureLapply}
 if (method=="Cluster") {f<-PparLapply}
+if (method=="ClusterHet") {f<-PparLapplyHet}
 if (!exists("f", inherits=FALSE))
         {stop("Execution Model label ", method, " does not exist")}
 return(f)

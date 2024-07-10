@@ -1,9 +1,21 @@
 -------------------------------------------------------------------------
-  xegaSelectGene                                                     News
+  xegaPopulation                                                     News
 -------------------------------------------------------------------------
 
 Version 1.0.0.1 (2024-03-15)
 
 - CoolingFactory:
         Message text corrected.
+
+Version 1.0.0.2 (2024-04-06)
+
+- ApplyFactory:
+        MClapplyHet() added. For tasks with a high variance of 
+        execution times.
+
+Version 1.0.0.3 (2024-07-10)
+
+- ApplyFactory:
+        PparLapplyHet() added. For tasks with a high variance of 
+        execution times.
 
