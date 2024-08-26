@@ -141,6 +141,25 @@
 #'                    \tab       \tab IAMRate() \cr 
 #' }
 #'
+#' @section Interface of Termination Conditions:
+#'
+#' \code{hasTerminated<-Terminate(solution, lF)}
+#'
+#' The interface allows the specification of termination conditions 
+#' for the genetic algorithm. The abstract function \code{Terminate}
+#' returns a boolean value. TBD
+#' 
+#' \strong{Dependencies of Termination Conditions}
+#' 
+#' \tabular{rr}{ 
+#' \strong{Condition}  \tab \strong{Requires} \cr 
+#' terminatedFalse()   \tab -                 \cr
+#' terminateAbsoluteError() \tab lF$penv$globalOptimum() \cr
+#'                          \tab lF$TerminationEps \cr
+#' terminateRelativeError() \tab lF$penv$globalOptimum() \cr
+#'                          \tab lF$TerminationEps \cr
+#' }
+#'
 #' @section The Architecture of the xegaX-Packages:
 #' 
 #' The xegaX-packages are a family of R-packages which implement 

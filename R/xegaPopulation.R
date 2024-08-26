@@ -78,7 +78,7 @@ xegaObservePopulation<-function(fit, v=vector())
 return(append(v, c(mean(fit), fivenum(fit), var(fit), mad(fit, constant=1))))
 }
 
-#' Combine fitness, generations, and the phentype of the gene. 
+#' Combine fitness, generations, and the phenotype of the gene. 
 #' 
 #' @param pop          Population.
 #' @param evallog      Evaluation log.
@@ -92,6 +92,13 @@ return(append(v, c(mean(fit), fivenum(fit), var(fit), mad(fit, constant=1))))
 #'         \itemize{
 #'         \item \code{$generation}:   The generation.
 #'         \item \code{$fit}:          The fitness value.
+#'         \item \code{$sigma}:        The standard deviation of the 
+#'                                     fitness value, if it exists.
+#'                                     Default: \code{0}.
+#'         \item \code{$obs}:          The number of observations for 
+#'                                     computing the 
+#'                                     fitness value, if it exists.
+#'                                     Default: \code{0}.
 #'         \item \code{$phenotype}:    The phenotype of the gene.
 #'         }
 #'
@@ -108,10 +115,15 @@ return(append(v, c(mean(fit), fivenum(fit), var(fit), mad(fit, constant=1))))
 xegaLogEvalsPopulation<-function(pop, evallog, generation, lF)
 {
 	new<-list()
+        sigmaExists<-("sigma" %in% names(pop$pop[[1]]$sigma))
 	for (i in (1:length(pop))) {
         v<-list()
         v$generation<-generation
         v$fit<-pop[[i]]$fit
+        v$sigma<-v$obs<-0
+        if (sigmaExists)  
+            {v$sigma<-pop[[i]]$sigma
+             v$obs<-pop[[i]]$obs}
         v$phenotype<-lF$DecodeGene(pop[[i]], lF)
 	new[[i]]<-v}
 	return(c(evallog,new))
@@ -119,7 +131,7 @@ xegaLogEvalsPopulation<-function(pop, evallog, generation, lF)
 
 #' Extracts indices of best genes in population.
 #'
-#' @description \code{BestGeneInPopulation()} extracts the indices of
+#' @description \code{xegaBestGeneInPopulation()} extracts the indices of
 #'              the best genes in the population.
 #'
 #' @details You might use:   
@@ -143,7 +155,7 @@ xegaBestGeneInPopulation<-function(fit){
 
 #' Best solution in the population.
 #'
-#' @description \code{BestInPopulation()} extracts the best
+#' @description \code{xegaBestInPopulation()} extracts the best
 #'              individual of a population and
 #'              reports fitness, value, genotype, and phenotype:
 #'
@@ -170,7 +182,7 @@ xegaBestGeneInPopulation<-function(fit){
 #'     \itemize{
 #'         \item \code{$name}:     The name of the problem environment.
 #'         \item \code{$fitness}:  The fitness value of the best solution.
-#'         \item \code{$val}:      The evaluted best gene. 
+#'         \item \code{$value}:      The evaluated best gene. 
 #'         \item \code{$numberOfSolutions}:   The number of solutions.
 #'         \item \code{$genotype}:    The best gene.
 #'         \item \code{$phenotype}:   The parameters of the solution
@@ -197,15 +209,14 @@ xegaBestInPopulation<-function(pop, fit, lF, allsolutions=FALSE)
         best<-(1:length(fit))[max(fit)==fit]
         bestGene<- pop[[head(best,1)]]
         parms<- lF$DecodeGene(bestGene,lF)
-        val<-lF$EvalGene(bestGene, lF)
         solution<-list(
              name=list(lF$penv$name()),		       
-             fitness=max(fit),
-             value=val,
+             fitness=bestGene$fit,
+             value=bestGene,
 	     numberOfSolutions=length(best),
              genotype=bestGene,
              phenotype=parms, 
-	     phenotypeValue=lF$penv$f(parms))
+	     phenotypeValue=lF$Max()*bestGene$fit)
 	if ((allsolutions) && (length(best)>1)) 
 	{
 	solution[["allgenotypes"]]<-pop[best]

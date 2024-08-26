@@ -23,3 +23,38 @@ Version 1.0.0.3 (2024-07-10)
         futureLapplyHet() added. For tasks with a high variance of 
         execution times.
 
+Version 1.0.0.4 (2024-08-16)
+
+- xegaPopulation.R function xegaBestInPopulation: 
+        - Evaluation of bestGene omitted
+          and all fields in solution record now derived
+          from bestGene. 
+          Rationale: xegaRepEval provides aggregated statistics 
+                     with any setting of the evaluation function. 
+                     All fields derived from fit are now 
+                     mean fitnesses which should approximate 
+                     the expected fitness of a gene for 
+                     a sufficiently high number of repeated evaluations.
+
+- terminate.R contains:
+        terminatedFalse()
+        terminatedAbsoluteError()
+        terminatedRelativeError()
+        TerminationFactory()
+
+        Rationale: Provides a set of standard termination conditions
+                   to avoid their reimplementation in each problem 
+                   environment which uses them.
+
+- xegaEvalPopulation.R contains:
+        xegaEvalPopulation()
+        xegaRepEvalPopulation()
+        xegaEvalPopulationFactory()
+       
+        Rationale: Provides an evaluation function for repeated 
+                   evaluations of stochastic functions.
+         
+        xegaLogEvalsPopulation()  Reporting of sigma and obs added.
+                                  For assessing stability of mean fitness
+                                  of stochastic problems.
+

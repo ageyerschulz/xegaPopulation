@@ -114,33 +114,3 @@ newpop<-append(newpop, lF$ReplicateGene(pop, fit, newlF))
 return(head(newpop,length(pop)))
 }
 
-#' Evaluates a population of genes in a a problem environment
-#'
-#' @description \code{EvalPopulation()} evaluates a population
-#'                  of genes in a problem environment.
-#'
-#' @details Parallelization of the evaluation of fitness functions
-#'          is possible by defining \code{lf$evalPopLapply}.
-#'
-#' @param pop    Population of genes.
-#' @param lF     Local function configuration.
-#'
-#' @return List of fitness values.
-#'
-#' @family Population Layer
-#'
-#' @examples
-#' pop10<-xegaInitPopulation(10, lFxegaGaGene)
-#' lFxegaGaGene[["evalPopLapply"]]<-ApplyFactory(method="Sequential") 
-#' fit<-xegaEvalPopulation(pop10, lFxegaGaGene)
-#'
-#' @export
-xegaEvalPopulation<-function(pop, lF)
-#{ unlist(lF$evalPopLapply(pop, lF$EvalGene, lF=lF)) }
-# Parallel loops here. 
-{ pop<- lF$lapply(pop, lF$EvalGene, lF=lF)
-  fit<- unlist(lapply(pop, function(x) {x$fit}))
-  evalFail<-sum(unlist(lapply(pop, function(x) {x$evalFail})))
-  return(list(pop=pop, fit=fit, evalFail=evalFail))
-}
-

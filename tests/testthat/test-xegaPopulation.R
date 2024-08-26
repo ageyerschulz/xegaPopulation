@@ -107,12 +107,18 @@ test_that("xegaBestinPopulation Multiple solutions OK",
     pop10<-xegaInitPopulation(10, lFxegaGaGene)
     epop10<-xegaEvalPopulation(pop10, lFxegaGaGene)
     # we doctor 2 solutions:
+    epop10$pop[[1]]$fit<-50
+    epop10$pop[[2]]$fit<-50
+    cat("epop10$pop[[1]]\n")
+    print(epop10$pop[[1]])
     epop10$fit[1]<-50
     epop10$fit[2]<-50
     s<-xegaBestInPopulation(epop10$pop, epop10$fit, lFxegaGaGene, allsolutions=TRUE)
     expect_identical(s$name==lFxegaGaGene$penv$name(), TRUE)
     expect_equal(s$fitness, max(epop10$fit))
-    expect_identical((s$val$fit==s$fit), FALSE)
+    cat("s\n")
+    print(s)
+    expect_identical((s$value$fit==s$fitness), TRUE)
     expect_equal(s$numberOfSolutions, 2)
     expect_equal(s$phenotype, lFxegaGaGene$DecodeGene(s$genotype, lFxegaGaGene))
     expect_equal(length(s$allgenotypes), 2)
