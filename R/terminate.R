@@ -248,6 +248,76 @@ terminateRelativeErrorZero<-function(solution, lF) {
              {return(TRUE)} else {return(FALSE)}
 }
 
+#' Terminates if relative deviation from estimated PAC bound for optimum is small. Works at 0.
+#'
+#' @description \code{terminatePAC()} 
+#' returns \code{TRUE} if the value of the current solution 
+#' is in the interval from (PACopt - (PACopt*eps)) to 
+#' (PACopt + (PACopt*eps)). If PACopt is zero, 
+#' test interval (0-eps) to (0+eps).
+#' 
+#' @details By an idea of M. Talagrand we estimate \code{lF$PACopt()} 
+#'          from the mean \code{m} and the standard deviation \code{s} of the population fitness 
+#'          of the first population of the genetic algorithm we compute
+#'          \code{m+s*qnorm(lF$PACdelta(), lower.tail=FALSE)} when the function we optimize 
+#'          is in Hilbert space. For other spaces, this has to be adapted.
+#'          
+#' @param solution  A named list with at least the following elements:
+#'                  $name, $fitness, $value, $numberOfSolutions, 
+#'                  $genotype, $phenotype, $phenotypeValue.
+#'                  
+#' @param lF        Local function configuration. It must contain
+#'                  \itemize{
+#'                  \item \code{lF$PACopt()} which returns 
+#'                        an estimation of an upper PAC bound \code{ub} for the global optimum \code{g}
+#'                        with \code{P(ub<g)<lF$PACdelta()}.
+#'                  \item \code{lF$TerminationEps()} which specifies the 
+#'                        the fraction of the global optimum
+#'                        used for computing the upper and lower bounds
+#'                        for the interval in which the best current 
+#'                        solution must be for terminating the algorithm. 
+#'                  }                   
+#'
+#' @return Boolean.
+#' 
+#' @family Termination Condition
+#'
+#' @examples
+#'     parm<-function(x){function() {return(x)}}
+#'     lF<-list(); lF$PACopt<-parm(10.0); lF$TerminationEps<-parm(1.2);lF$Max<-parm(1.0)
+#'     solution<-list(); solution$genotype<-list();  solution$genotype$fit<-0.5
+#'     terminatePAC(solution, lF)
+#'     solution<-list(); solution$genotype<-list();  solution$genotype$fit<-9.6
+#'     terminatePAC(solution, lF)
+#' @export
+terminatePAC<-function(solution, lF) {
+             opt<-lF$PACopt()
+             eps<-max(abs(lF$TerminationEps()*opt), abs(lF$TerminationEps()))
+             copt<-solution$genotype$fit*lF$Max()
+             if ((copt>(opt-eps)) &
+                (copt<(opt+eps)))
+             # if ((solution$phenotypeValue>(opt-eps)) &
+             #   (solution$phenotypeValue<(opt+eps)))
+             {return(TRUE)} else {return(FALSE)}
+}
+
+#' Check terminatePAC()
+#' 
+#' @param penv    A problem environment.
+#' @param max     Maximize?
+#'
+#' @return A named list
+#'         \itemize{
+#'          \item \code{$OK}   \code{TRUE}
+#'          \item \code{$penv} \code{penv}
+#'                 }
+#'
+checkTerminatePAC<-function(penv, max) 
+{ 
+     lst<-list(); lst$OK<-TRUE; lst$penv<-penv
+     return(lst)
+}          
+
 #' Configure the termination condition(s) 
 #' a genetic algorithm.
 #'
@@ -296,6 +366,7 @@ if (method=="NoTermination") {f<-terminatedFalse}
 if (method=="AbsoluteError") {f<-terminateAbsoluteError}
 if (method=="RelativeError") {f<-terminateRelativeError}
 if (method=="RelativeErrorZero") {f<-terminateRelativeErrorZero}
+if (method=="PAC") {f<-terminatePAC}
 if (!exists("f", inherits=FALSE))
         {stop("Termination label ", method, " does not exist")}
 return(f)
@@ -321,6 +392,7 @@ if (method=="NoTermination") {f<-checkTerminatedFalse}
 if (method=="AbsoluteError") {f<-checkTerminateError}
 if (method=="RelativeError") {f<-checkTerminateError}
 if (method=="RelativeErrorZero") {f<-checkTerminateError}
+if (method=="PAC") {f<-checkTerminatePAC}
 if (!exists("f", inherits=FALSE))
         {stop("Termination label ", method, " does not exist")}
 return(f)

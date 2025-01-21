@@ -223,8 +223,7 @@ futureLapplyHet<-function(pop, EvalGene, lF) # nocov start
 #' parm<-function(x) {function() {x}}
 #' pop<-xegaInitPopulation(1000, lFxegaGaGene)
 #' library(parallel)
-#' clus<-makeCluster(spec=c("localhost", "localhost"), master="localhost", 
-#'                             port=1250, homogeneous=TRUE)
+#' clus<-makeCluster(2)
 #' lFxegaGaGene$cluster<-parm(clus)
 #' popnew<-PparLapply(pop, lFxegaGaGene$EvalGene, lFxegaGaGene)
 #' stopCluster(clus)
@@ -239,6 +238,10 @@ PparLapply<-function(pop, EvalGene, lF) # nocov start
 		    EvalGene, 
 		    lF=lF)
 } # nocov end
+
+#### Low level specification of cluster object. Not recommended.
+## clus<-makeCluster(spec=c("localhost", "localhost"), master="localhost", 
+##                             port=1250, homogeneous=TRUE)
 
 #' uses parLapplyLB of library parallel for using workers on 
 #' machines in a local network. 
@@ -262,8 +265,7 @@ PparLapply<-function(pop, EvalGene, lF) # nocov start
 #' parm<-function(x) {function() {x}}
 #' pop<-xegaInitPopulation(1000, lFxegaGaGene)
 #' library(parallel)
-#' clus<-makeCluster(spec=c("localhost", "localhost"), master="localhost", 
-#'                             port=1250, homogeneous=TRUE)
+#' clus<-makeCluster(2)
 #' lFxegaGaGene$cluster<-parm(clus)
 #' popnew<-PparLapplyHet(pop, lFxegaGaGene$EvalGene, lFxegaGaGene)
 #' stopCluster(clus)
@@ -355,7 +357,7 @@ PparLapplyHet<-function(pop, EvalGene, lF) # nocov start
 #'       \enumerate{
 #'       \item Generate a cluster object:
 #'
-#'        \code{cl<-makeClusterPSOCK(rep("localhost", workers)} 
+#'        \code{cl<-makeClusterPSOCK(workers)} 
 #'       \item Set up an on.exit condition for stopping the worker processes.
 #'
 #'       \code{on.exit(parallel::stopCluster(cl))}

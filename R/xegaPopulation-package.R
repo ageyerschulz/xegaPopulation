@@ -218,5 +218,4 @@
 #' @section License: MIT
 #' @section URL: https://github.com/ageyerschulz/xegaPopulation
 #' @section Installation: From CRAN by \code{install.packages('xegaPopulation')}
-NULL
-
+"_PACKAGE"
