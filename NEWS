@@ -60,7 +60,7 @@ Version 1.0.0.4 (2024-08-16)
 
 Version 1.0.0.5 (2024-10-01)
 
-- terminatedPAC()  Terminate if an epsilon-environment of an 
+- terminatePAC()  Terminate if an epsilon-environment of an 
                    estimated upper PAC bound of the optimal solution 
                    is reached.
 
@@ -69,3 +69,10 @@ Version 1.0.0.6 (2025-01-21)
 - Examples for futureLapplyHet, PparLapply, and PparLapplyHet fixed 
   by Henrik Bengtsson. 
   
+Version 1.0.0.7 (2025-01-23)
+
+- terminateGEQ()  Terminate if the (phenotype) value of a solution 
+                  is greater or equal than a threshold.
+- terminateLEQ()  Terminate if the (phenotype) value of a solution 
+                  is less or equal than a threshold.
+

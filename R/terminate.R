@@ -143,6 +143,72 @@ checkTerminateError<-function(penv, max)
      return(lst)
 }          
 
+#' Terminates, if the solution is greater equal a threshold.
+#'
+#' @description \code{terminateGEQ()} 
+#' returns \code{TRUE} if the value of the current solution 
+#' is greater or equal \code{lF$TerminationThreshold()}.
+#' 
+#' @param solution  A named list with at least the following elements:
+#'                  $name, $fitness, $value, $numberOfSolutions, 
+#'                  $genotype, $phenotype, $phenotypeValue.
+#'                  
+#' @param lF        Local function configuration. It must contain
+#'                  \itemize{
+#'                  \item \code{lF$TerminationThreshold()} which returns 
+#'                        a numeric value.
+#'                  }                   
+#'
+#' @return Boolean.
+#' 
+#' @family Termination Condition
+#'
+#' @examples
+#'     parm<-function(x){function() {return(x)}}
+#'     lF<-list(); lF$TerminationThreshold<-parm(9.2)
+#'     solution<-list(); solution$phenotypeValue<-8.0
+#'     terminateGEQ(solution, lF)
+#'     solution<-list(); solution$phenotypeValue<-9.6
+#'     terminateGEQ(solution, lF)
+#' @export
+terminateGEQ<-function(solution, lF) {
+              if (solution$phenotypeValue>=lF$TerminationThreshold())
+             {return(TRUE)} else {return(FALSE)}
+}
+
+#' Terminates, if the solution is less equal a threshold.
+#'
+#' @description \code{terminateLEQ()} 
+#' returns \code{TRUE} if the value of the current solution 
+#' is less or equal \code{lF$TerminationThreshold()}.
+#' 
+#' @param solution  A named list with at least the following elements:
+#'                  $name, $fitness, $value, $numberOfSolutions, 
+#'                  $genotype, $phenotype, $phenotypeValue.
+#'                  
+#' @param lF        Local function configuration. It must contain
+#'                  \itemize{
+#'                  \item \code{lF$TerminationThreshold()} which returns 
+#'                        a numeric value.
+#'                  }                   
+#'
+#' @return Boolean.
+#' 
+#' @family Termination Condition
+#'
+#' @examples
+#'     parm<-function(x){function() {return(x)}}
+#'     lF<-list(); lF$TerminationThreshold<-parm(9.2)
+#'     solution<-list(); solution$phenotypeValue<-8.0
+#'     terminateLEQ(solution, lF)
+#'     solution<-list(); solution$phenotypeValue<-9.6
+#'     terminateLEQ(solution, lF)
+#' @export
+terminateLEQ<-function(solution, lF) {
+              if (solution$phenotypeValue<=lF$TerminationThreshold())
+             {return(TRUE)} else {return(FALSE)}
+}
+
 #' Terminates, if the relative deviation from the global optimum is small.
 #'
 #' @description \code{terminateRelativeError()} 
@@ -269,7 +335,8 @@ terminateRelativeErrorZero<-function(solution, lF) {
 #' @param lF        Local function configuration. It must contain
 #'                  \itemize{
 #'                  \item \code{lF$PACopt()} which returns 
-#'                        an estimation of an upper PAC bound \code{ub} for the global optimum \code{g}
+#'                        an estimation of an upper PAC bound 
+#'                        \code{ub} for the global optimum \code{g}
 #'                        with \code{P(ub<g)<lF$PACdelta()}.
 #'                  \item \code{lF$TerminationEps()} which specifies the 
 #'                        the fraction of the global optimum
@@ -352,6 +419,14 @@ checkTerminatePAC<-function(penv, max)
 #'        (globalOptimum+(globalOptimum*eps)).
 #'        If the globalOptimum is zero, the interval is 
 #'        from \code{-terminationEps} to \code{terminationEps}. 
+#'  \item "PAC" returns \code{terminatePAC()}. Terminates, as soon as the fitness is
+#'        is better than a confidence interval depending on the mean
+#'        and \code{stats::qnorm(PACdelta, lower.tail=FALSE)}
+#'        times the standard deviation of the fitness of the initial population.
+#'  \item "GEQ" returns \code{terminateGEQ()}. Terminates as soon as the 
+#'        phenotype value of the solution is greater equal than \code{lF$TerminationThreshol()}.
+#'  \item "LEQ" returns \code{terminateLEQ()}. Terminates as soon as the 
+#'        phenotype value of the solution is less equal than \code{lF$TerminationThreshol()}.
 #'    }
 #'
 #' @param method A string specifying the termination condition.
@@ -367,6 +442,8 @@ if (method=="AbsoluteError") {f<-terminateAbsoluteError}
 if (method=="RelativeError") {f<-terminateRelativeError}
 if (method=="RelativeErrorZero") {f<-terminateRelativeErrorZero}
 if (method=="PAC") {f<-terminatePAC}
+if (method=="GEQ") {f<-terminateGEQ}
+if (method=="LEQ") {f<-terminateLEQ}
 if (!exists("f", inherits=FALSE))
         {stop("Termination label ", method, " does not exist")}
 return(f)
@@ -393,6 +470,8 @@ if (method=="AbsoluteError") {f<-checkTerminateError}
 if (method=="RelativeError") {f<-checkTerminateError}
 if (method=="RelativeErrorZero") {f<-checkTerminateError}
 if (method=="PAC") {f<-checkTerminatePAC}
+if (method=="GEQ") {f<-checkTerminatePAC}
+if (method=="LEQ") {f<-checkTerminatePAC}
 if (!exists("f", inherits=FALSE))
         {stop("Termination label ", method, " does not exist")}
 return(f)
