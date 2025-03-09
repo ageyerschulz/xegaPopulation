@@ -313,6 +313,7 @@ xegaSummaryPopulation<-function(pop, fit, lF, iter=0)
 	cat("str(Genotype):\n")
 	str(solution$genotype)
 	}
+
         return(0)
 }
 
