@@ -94,6 +94,8 @@ xegaNextPopulation<-function(pop, fit, lF)
 { 
 if (lF$Elitist()) {
    newpop<-list(pop[[xegaBestGeneInPopulation(fit)[1]]])
+   if (lF$Pipeline()==TRUE) 
+     {newpop<-asPipeline(newpop, lF)}
    } else {
    newpop<-list() }
 

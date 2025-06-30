@@ -90,7 +90,7 @@ MClapply<-function(pop, EvalGene, lF) # nocov start
 #' library(parallelly) 
 #' if (supportsMulticore()){
 #' lFxegaGaGene$Cores<-function() {2}
-#' pop<-xegaInitPopulation(1000, lFxegaGaGene)
+#' pop<-xegaInitPopulation(10, lFxegaGaGene)
 #' popnew<-MClapplyHet(pop, lFxegaGaGene$EvalGene, lFxegaGaGene)
 #' }
 #'

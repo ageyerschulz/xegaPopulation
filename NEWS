@@ -76,3 +76,8 @@ Version 1.0.0.7 (2025-01-23)
 - terminateLEQ()  Terminate if the (phenotype) value of a solution 
                   is less or equal than a threshold.
 
+Version 1.0.0.8 (2025-01-23)
+
+- asPipeline()          Converts a population into a list of operator pipelines.
+- xegaEvalPopulation()  Evaluation of operator pipelines added.
+- xegaNextPopulation()  Elitist support for operator pipelines added.
