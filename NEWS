@@ -81,3 +81,9 @@ Version 1.0.0.8 (2025-01-23)
 - asPipeline()          Converts a population into a list of operator pipelines.
 - xegaEvalPopulation()  Evaluation of operator pipelines added.
 - xegaNextPopulation()  Elitist support for operator pipelines added.
+
+Version 1.0.0.9 (2025-07-26)
+
+- xegaNextPopulation()  Update of current iteration function lF$cGeneration()
+                        added.
+

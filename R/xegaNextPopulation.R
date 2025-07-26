@@ -62,13 +62,17 @@ ReplicateGene<-xegaGaGene::xegaGaReplicateGene
 #'              builds the next population by repeatedly
 #'              calling \code{ReplicateGene()}.
 #'
-#' @details The current version is sequential.
-#'          For parallelization, a restructuring of the 
-#'          main loop with an integration of \code{xegaNextPopulation}
-#'          and \code{xegaEvalPopulation} is planned, because
-#'          this allows the parallelization of a large part of 
-#'          the genetic operations which are sequential in the 
-#'          current version. 
+#' @details Generating the next population is sequential. 
+#'          However, in order to shift more computations 
+#'          into the evaluation step, genetic operator pipelines
+#'          have been implemented by 
+#'          \code{lF$ReplicateGene()}. 
+#'          \code{xegaNextPopulation()} only has to convert 
+#'          elitist solutions into function closures.            
+#'
+#'          For adaptive genetic operators, population statistics and 
+#'          the current generation are stored as constant functions 
+#'          in \code{lF}.
 #'
 #' @param pop     Population of genes.
 #' @param fit     Fitness.
@@ -79,6 +83,7 @@ ReplicateGene<-xegaGaGene::xegaGaReplicateGene
 #' @family Population Layer
 #'
 #' @examples
+#' lFxegaGaGene$cGeneration<-function() {0}
 #' lFxegaGaGene$MutationRate<-MutationRateFactory(method="Const")
 #' lFxegaGaGene$ReplicateGene<-ReplicateGene
 #' lFxegaGaGene$Accept<-AcceptFactory(method="All")
@@ -104,6 +109,7 @@ newlF$CBestFitness<-xegaSelectGene::parm(max(fit))
 newlF$CMeanFitness<-xegaSelectGene::parm(mean(fit))
 newlF$CVarFitness<-xegaSelectGene::parm(var(fit))
 newlF$CWorstFitness<-xegaSelectGene::parm(min(fit))
+newlF$cGeneration<-xegaSelectGene::parm(lF$cGeneration()+1)
 
 if (lF$SelectionContinuation()==TRUE) 
 { newlF$SelectGene<-TransformSelect(fit, lF, lF$SelectGene)
