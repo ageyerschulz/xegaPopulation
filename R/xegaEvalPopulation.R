@@ -100,6 +100,15 @@ xegaEvalPopulation<-function(pop, lF)
 #' @details Parallelization of the evaluation of fitness functions
 #'          is possible by defining \code{lF$lapply}.
 #'
+#'          \code{xegaRepEvalPopulation} is still  experimental.
+#'          Known problems: 
+#'          \itemize{
+#'          \item The apply loop must be order stable. 
+#'                This does not work e.g. for all local area network 
+#'                distribution versions.
+#'          \item Populations of function closures can not be evaluated.  
+#'          }          
+#'
 #' @param pop    Population of genes.
 #' @param lF     Local function configuration.
 #'

@@ -105,11 +105,10 @@ if (lF$Elitist()) {
    newpop<-list() }
 
 newlF<-lF
-newlF$CBestFitness<-xegaSelectGene::parm(max(fit))
-newlF$CMeanFitness<-xegaSelectGene::parm(mean(fit))
-newlF$CVarFitness<-xegaSelectGene::parm(var(fit))
-newlF$CWorstFitness<-xegaSelectGene::parm(min(fit))
-newlF$cGeneration<-xegaSelectGene::parm(lF$cGeneration()+1)
+
+# cat("xegaNextPopulation:\n")
+# cat("CBestFitness:", newlF$CBestFitness(), "\n")
+# cat("cGeneration:", newlF$cGeneration(), "\n")
 
 if (lF$SelectionContinuation()==TRUE) 
 { newlF$SelectGene<-TransformSelect(fit, lF, lF$SelectGene)

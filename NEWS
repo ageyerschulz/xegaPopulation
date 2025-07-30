@@ -84,6 +84,7 @@ Version 1.0.0.8 (2025-01-23)
 
 Version 1.0.0.9 (2025-07-26)
 
-- xegaNextPopulation()  Update of current iteration function lF$cGeneration()
-                        added.
+- xegaNextPopulation()  Moved updates of lF out to main loop in xegaRun.
+                        
+                        
 

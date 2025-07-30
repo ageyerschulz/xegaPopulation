@@ -5,6 +5,7 @@ library(xegaPopulation)
 
 test_that("xegaNextPopulation kid2 P(Crossover=1.0), P(Mutation)=0.0 OK",
           {
+          lFxegaGaGene$cGeneration<-parm(0)
           lFxegaGaGene$BitMutationRate1<-parm(0.001)
           lFxegaGaGene$MutationRate1<-parm(0.000)
 	  lFxegaGaGene$MutationRate<-MutationRateFactory(method="Const")
@@ -20,6 +21,7 @@ test_that("xegaNextPopulation kid2 P(Crossover=1.0), P(Mutation)=0.0 OK",
 
 test_that("xegaNextPopulation kid2 P(Crossover=0.0) P(Mutation=1.0)  OK",
           {
+          lFxegaGaGene$cGeneration<-parm(0)
           lFxegaGaGene$BitMutationRate1<-parm(0.001)
           lFxegaGaGene$MutationRate1<-parm(1.0)
 	  lFxegaGaGene$MutationRate<-MutationRateFactory(method="Const")
@@ -36,6 +38,7 @@ test_that("xegaNextPopulation kid2 P(Crossover=0.0) P(Mutation=1.0)  OK",
 
 test_that("xegaNextPopulation kid2 P(Crossover=0.0), P(Mutation)=0.0 OK",
           {
+          lFxegaGaGene$cGeneration<-parm(0)
           lFxegaGaGene$BitMutationRate1<-parm(0.001)
           lFxegaGaGene$MutationRate1<-parm(0.0)
 	  lFxegaGaGene$MutationRate<-MutationRateFactory(method="Const")
@@ -51,6 +54,7 @@ test_that("xegaNextPopulation kid2 P(Crossover=0.0), P(Mutation)=0.0 OK",
 
 test_that("xegaNextPopulation kid2 P(Crossover=1.0), P(Mutation)=1.0 OK",
           {
+          lFxegaGaGene$cGeneration<-parm(0)
           lFxegaGaGene$BitMutationRate1<-parm(0.001)
           lFxegaGaGene$MutationRate1<-parm(1.0)
 	  lFxegaGaGene$MutationRate<-MutationRateFactory(method="Const")
