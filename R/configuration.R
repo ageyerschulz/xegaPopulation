@@ -56,11 +56,11 @@
 xegaConfiguration<-function(GAname, penv, grammar, env)
 {       
 arglst<-as.list(env)
-penvName<-as.character(penv)
+penvName<-deparse(penv)
 if (is.null(grammar))
-{grammarName<-"grammar=NULL"} else
-{grammarName<-as.character(grammar)}
-GAcall<-paste(GAname,"(", penvName, ",", grammarName, sep="")
+{grammarName<-"NULL"} else
+{grammarName<-deparse(grammar)}
+GAcall<-paste(GAname,"(penv=", penvName, ",grammar=", grammarName, sep="")
 for (i in 3: length(arglst))
 {
 if (typeof(unlist(arglst[i]))=="character")
