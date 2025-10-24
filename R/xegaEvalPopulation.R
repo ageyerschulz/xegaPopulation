@@ -15,7 +15,7 @@
 #' @importFrom xegaGaGene newPipeline
 #' @export
 asPipeline<-function(pop, lF)
-{unlist(lF$lapply(pop, xegaGaGene::newPipeline, lF=lF))}
+{unlist(lapply(pop, xegaGaGene::newPipeline, lF=lF))}
 
 #' Repairs the list structure of a population of genes.
 #'

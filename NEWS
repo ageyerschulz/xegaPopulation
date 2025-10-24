@@ -91,4 +91,8 @@ Version 1.0.0.10 (2025-08-17)
 - xegaConfiguration(): Changes problem and grammar parameters 
                        from positional to named arguments.
 
+Version 1.0.0.11 (2025-10-23)
+
+- asPipeline()         Changed to sequential version.
+                       Reason: 1. Pipeline compilation and rmpi. 
 
