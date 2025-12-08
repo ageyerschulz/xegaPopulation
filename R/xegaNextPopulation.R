@@ -83,6 +83,7 @@ ReplicateGene<-xegaGaGene::xegaGaReplicateGene
 #' @family Population Layer
 #'
 #' @examples
+#' lFxegaGaGene$Pipeline<-function() {"NoPipe"}
 #' lFxegaGaGene$cGeneration<-function() {0}
 #' lFxegaGaGene$MutationRate<-MutationRateFactory(method="Const")
 #' lFxegaGaGene$ReplicateGene<-ReplicateGene
@@ -99,8 +100,8 @@ xegaNextPopulation<-function(pop, fit, lF)
 { 
 if (lF$Elitist()) {
    newpop<-list(pop[[xegaBestGeneInPopulation(fit)[1]]])
-   if (lF$Pipeline()==TRUE) 
-     {newpop<-asPipeline(newpop, lF)}
+   if (!lF$Pipeline()=="NoPipe") 
+     {newpop<-lF$AsPipeline(newpop, lF)}
    } else {
    newpop<-list() }
 

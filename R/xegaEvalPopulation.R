@@ -1,21 +1,5 @@
-
-#' Converts a population into a list of genetic operator pipelines.
-#'
-#' @param pop  A population.
-#' @param lF   The local function configuration.
-#'
-#' @return A list of genetic operator pipelines.
-#'
-#' @family Genetic operator pipelines
-#'
-#' @examples
-#' pop5<-xegaInitPopulation(5, lFxegaGaGene)
-#' pop5c<-asPipeline(pop5, lFxegaGaGene)
-#' pop5c
-#' @importFrom xegaGaGene newPipeline
-#' @export
-asPipeline<-function(pop, lF)
-{unlist(lapply(pop, xegaGaGene::newPipeline, lF=lF))}
+# xegaEvalPopulation
+# (c) 2025 Andreas Geyer-Schulz.
 
 #' Repairs the list structure of a population of genes.
 #'
@@ -68,16 +52,25 @@ return(npop)}
 #' lFxegaGaGene[["lapply"]]<-ApplyFactory(method="Sequential") 
 #' result<-xegaEvalPopulation(pop5, lFxegaGaGene)
 #' result
-#' lFxegaGaGene$Pipeline<-function() {TRUE}
+#' lFxegaGaGene$Pipeline<-function() {"PipeC"}
 #' pop5c<-asPipeline(pop5, lFxegaGaGene)
+#' pop5c
+#' result<-xegaEvalPopulation(pop5c, lFxegaGaGene)
+#' result
+#' lFxegaGaGene$Pipeline<-function() {"PipeG"}
+#' pop5c<-asPipelineG(pop5, lFxegaGaGene)
 #' pop5c
 #' result<-xegaEvalPopulation(pop5c, lFxegaGaGene)
 #' result
 #' @export
 xegaEvalPopulation<-function(pop, lF)
-{ if (lF$Pipeline()==FALSE) {pop<- lF$lapply(pop, lF$EvalGene, lF=lF)}
-  if (lF$Pipeline()==TRUE) 
+{ if (lF$Pipeline()=="NoPipe") {pop<- lF$lapply(pop, lF$EvalGene, lF=lF)}
+  if (lF$Pipeline()=="PipeC") 
      { pop<- lF$lapply(pop, function(x, lF) {x(lF)}, lF=lF)
+       if (Reduce((unlist(lapply(pop, FUN=function(x) length(x)))<4), f="|"))
+       {pop<-xegaRepairPop(pop)} }
+  if (lF$Pipeline()=="PipeG") 
+     { pop<- lF$lapply(pop, function(x, lF) {x$Pipeline(x, lF)}, lF=lF)
        if (Reduce((unlist(lapply(pop, FUN=function(x) length(x)))<4), f="|"))
        {pop<-xegaRepairPop(pop)} }
   fit<- unlist(lapply(pop, function(x) {x$fit}))
@@ -101,12 +94,13 @@ xegaEvalPopulation<-function(pop, lF)
 #'          is possible by defining \code{lF$lapply}.
 #'
 #'          \code{xegaRepEvalPopulation} is still  experimental.
-#'          Known problems: 
+#'          Known problems (TODOs): 
 #'          \itemize{
 #'          \item The apply loop must be order stable. 
 #'                This does not work e.g. for all local area network 
 #'                distribution versions.
 #'          \item Populations of function closures can not be evaluated.  
+#'          \item Does not work with pipeline compilation.
 #'          }          
 #'
 #' @param pop    Population of genes.

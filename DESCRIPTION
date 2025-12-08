@@ -23,6 +23,8 @@ Description: This collection of gene representation-independent functions
    approximate search procedure elements. Adaptive crossover and mutation 
    rates depending on population statistics generalize the approach of 
    Stanhope, S. A. and Daida, J. M. (1996, ISBN:0-18-201-031-7). 
+   For xega's architecture, 
+   see Geyer-Schulz, A. (2025) <doi:10.5445/IR/1000187255>.
 License: MIT + file LICENSE
 URL: https://github.com/ageyerschulz/xegaPopulation
 Encoding: UTF-8
