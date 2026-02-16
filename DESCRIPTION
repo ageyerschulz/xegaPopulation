@@ -1,6 +1,6 @@
 Package: xegaPopulation 
 Title: Genetic Population Level Functions
-Version: 1.0.0.11
+Version: 1.0.0.12
 Authors@R: 
     person(given = "Andreas",
            family = "Geyer-Schulz",
@@ -9,7 +9,9 @@ Authors@R:
            comment = c(ORCID = "0009-0000-5237-3579"))
 Description: This collection of gene representation-independent functions 
    implements the population layer of extended evolutionary and genetic 
-   algorithms and its support. The population layer consists of functions 
+   algorithms and its support
+   for the R-package 'xega' <https://CRAN.R-project.org/package=xega>.
+   The population layer consists of functions 
    for initializing, logging, observing, evaluating a population of genes, 
    as well as of computing the next population. For parallel evaluation of a 
    population of genes 4 execution models - named Sequential, MultiCore, 
@@ -23,7 +25,7 @@ Description: This collection of gene representation-independent functions
    approximate search procedure elements. Adaptive crossover and mutation 
    rates depending on population statistics generalize the approach of 
    Stanhope, S. A. and Daida, J. M. (1996, ISBN:0-18-201-031-7). 
-   For xega's architecture, 
+   For 'xega''s architecture, 
    see Geyer-Schulz, A. (2025) <doi:10.5445/IR/1000187255>.
 License: MIT + file LICENSE
 URL: https://github.com/ageyerschulz/xegaPopulation
