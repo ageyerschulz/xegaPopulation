@@ -282,6 +282,27 @@ PparLapplyHet<-function(pop, EvalGene, lF) # nocov start
 } # nocov end
 # to export data: see parallel::clusterExport
 
+#' uses the local function \code{lF$Rmpi$mpi.parLapply()}
+#'
+#' @description The local function name \code{lF$Rmpi$mpi.parLapply()}
+#'              must be bound to the function mpi.parLapply of package Rmpi
+#'              (Code injection).
+#'
+#' @param pop        a population of genes.
+#' @param EvalGene   the function for evaluating a gene.
+#' @param lF          the local function factory which provides
+#'                    all functions needed in \code{EvalGene}.
+#'
+#' @return Fitness vector.
+#'
+#' @family Execution Model
+#'
+#'@export
+rmpiLapply<-function(pop, EvalGene, lF)
+{
+   lF$Rmpi$mpi.parLapply(pop, FUN=EvalGene, lF=lF)
+}
+
 #' Configure the the execution model for gene evaluation.
 #'
 #' @description 
@@ -304,6 +325,10 @@ PparLapplyHet<-function(pop, EvalGene, lF) # nocov start
 #' \item "Cluster": Uses \code{parallel:parLapply()}.
 #'                    A cluster object must be set up and the 
 #'                    worker processes must be stopped. 
+#' \item "mpi": Uses \code{rmpiLapply()} which uses the 
+#'              local function \code{lF$Rmpi$mpi.parLappy()}
+#'              which must be bound with function \code{mpi.parLapply()} 
+#'              from package \code{Rmpi}.
 #' }
 #'
 #' The execution model \strong{"MultiCore"} provides parallelization restricted 
@@ -391,7 +416,7 @@ PparLapplyHet<-function(pop, EvalGene, lF) # nocov start
 #'                  "Sequential" | 
 #'                  "MultiCore" | "MultiCoreHet" |
 #'                  "FutureApply" |  "FutureApplyHet" |
-#'                  "Cluster" | "ClusterHet" .
+#'                  "Cluster" | "ClusterHet" | "mpi".
 #'
 #' @return A function with the same result as the \code{lapply()}-function.  
 #'
@@ -406,6 +431,7 @@ if (method=="FutureApply") {f<-futureLapply}
 if (method=="FutureApplyHet") {f<-futureLapplyHet}
 if (method=="Cluster") {f<-PparLapply}
 if (method=="ClusterHet") {f<-PparLapplyHet}
+if (method=="mpi") {f<-rmpiLapply}
 if (!exists("f", inherits=FALSE))
         {stop("Execution Model label ", method, " does not exist")}
 return(f)

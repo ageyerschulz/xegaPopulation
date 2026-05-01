@@ -11,6 +11,7 @@
 #' @importFrom xegaGaGene lFxegaGaGene
 #' @export
 lFxegaGaGene<-xegaGaGene::lFxegaGaGene
+lFxegaGaGene$Pipeline<-function() {"NoPipe"}
 
 #' Import for examples.
 #' @param lF   a list of local functions

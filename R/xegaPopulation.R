@@ -64,6 +64,7 @@ xegaInitPopulation<-function(popsize, lF)
 #' @family Population Layer
 #'
 #' @examples
+#' 
 #' pop10<-xegaInitPopulation(10, lFxegaGaGene)
 #' epop10<-xegaEvalPopulation(pop10, lFxegaGaGene)
 #' popStats<-xegaObservePopulation(epop10$fit)
@@ -256,6 +257,7 @@ xegaBestInPopulation<-function(pop, fit, lF, allsolutions=FALSE)
 #' @family Population Layer
 #'
 #' @examples
+#' lFxegaGaGene$pid<-function() {1}
 #' pop10<-xegaInitPopulation(10, lFxegaGaGene)
 #' epop10<-xegaEvalPopulation(pop10, lFxegaGaGene)
 #' rc<-xegaSummaryPopulation(epop10$pop, epop10$fit, lFxegaGaGene, iter=12)
@@ -273,10 +275,10 @@ xegaSummaryPopulation<-function(pop, fit, lF, iter=0)
 	if (lF$Verbose()>1) {
         if (iter==0)
         {
-        cat("Best solution:\n")
+        cat("pid[",lF$pid(),"] Best solution:\n")
         } else
         {
-        cat("Best Solution in Iteration:", iter, "\n")
+        cat("pid[",lF$pid(), "] Best Solution in Iteration:", iter, "\n")
         }
 
         best<-(1:length(fit))[max(fit)==fit]

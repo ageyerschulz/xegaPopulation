@@ -155,6 +155,7 @@ test_that("xegaSummaryPopulation verbose=2  OK",
     {
     pop10<-xegaInitPopulation(10, lFxegaGaGene)
     epop10<-xegaEvalPopulation(pop10, lFxegaGaGene)
+    lFxegaGaGene$pid<-parm(1)
     lFxegaGaGene$Verbose<-parm(2)
     rc<-xegaSummaryPopulation(epop10$pop, epop10$fit, lFxegaGaGene, 0)
     rc<-xegaSummaryPopulation(epop10$pop, epop10$fit, lFxegaGaGene, 5)
@@ -166,6 +167,7 @@ test_that("xegaSummaryPopulation verbose=3  OK",
     {
     pop10<-xegaInitPopulation(10, lFxegaGaGene)
     epop10<-xegaEvalPopulation(pop10, lFxegaGaGene)
+    lFxegaGaGene$pid<-parm(1)
     lFxegaGaGene$Verbose<-parm(3)
     rc<-xegaSummaryPopulation(epop10$pop, epop10$fit, lFxegaGaGene, 0)
     rc<-xegaSummaryPopulation(epop10$pop, epop10$fit, lFxegaGaGene, 5)
@@ -177,6 +179,7 @@ test_that("xegaSummaryPopulation verbose=4  OK",
     {
     pop10<-xegaInitPopulation(10, lFxegaGaGene)
     epop10<-xegaEvalPopulation(pop10, lFxegaGaGene)
+    lFxegaGaGene$pid<-parm(1)
     lFxegaGaGene$Verbose<-parm(4)
     rc<-xegaSummaryPopulation(epop10$pop, epop10$fit, lFxegaGaGene, 0)
     rc<-xegaSummaryPopulation(epop10$pop, epop10$fit, lFxegaGaGene, 5)
@@ -188,6 +191,7 @@ test_that("xegaSummaryPopulation verbose=5  OK",
     {
     pop10<-xegaInitPopulation(10, lFxegaGaGene)
     epop10<-xegaEvalPopulation(pop10, lFxegaGaGene)
+    lFxegaGaGene$pid<-parm(1)
     lFxegaGaGene$Verbose<-parm(5)
     rc<-xegaSummaryPopulation(epop10$pop, epop10$fit, lFxegaGaGene, 0)
     rc<-xegaSummaryPopulation(epop10$pop, epop10$fit, lFxegaGaGene, 5)

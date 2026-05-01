@@ -104,3 +104,13 @@ Version 1.0.0.12 (2025-12-06)
 
 - xegaAsPipelineFactory()  Configuration of pipeline configuration.
 
+Version 1.0.0.13 (2025-04-04)
+
+- Added Pipeline method "NoPipe" to lFxegaGaGene in all examples
+  with an evaluation of a population of genes.
+
+Version 1.0.0.14 (2026-04-24)
+
+- Added rmpiLapply as parallel execution model.
+- Added pid to output for verbose > 1.
+  

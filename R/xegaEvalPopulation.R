@@ -50,6 +50,7 @@ return(npop)}
 #' @examples
 #' pop5<-xegaInitPopulation(5, lFxegaGaGene)
 #' lFxegaGaGene[["lapply"]]<-ApplyFactory(method="Sequential") 
+#' lFxegaGaGene$Pipeline<-function() {"NoPipe"}
 #' result<-xegaEvalPopulation(pop5, lFxegaGaGene)
 #' result
 #' lFxegaGaGene$Pipeline<-function() {"PipeC"}
