@@ -114,3 +114,8 @@ Version 1.0.0.14 (2026-04-24)
 - Added rmpiLapply as parallel execution model.
 - Added pid to output for verbose > 1.
   
+Version 1.0.0.14 (2026-05-16)
+
+- Dropped vector of gene indices with equal fitness from 
+  xegaSummaryPopulation.
+

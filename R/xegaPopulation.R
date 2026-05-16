@@ -284,7 +284,7 @@ xegaSummaryPopulation<-function(pop, fit, lF, iter=0)
         best<-(1:length(fit))[max(fit)==fit]
         cat("Max(fit): ", max(fit),
             "No. solutions: ", length(best),
-            "Indices of best genes: ", best,
+            # "Indices of best genes: ", best,
             "\n")
 	}
 
