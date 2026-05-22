@@ -119,3 +119,9 @@ Version 1.0.0.14 (2026-05-16)
 - Dropped vector of gene indices with equal fitness from 
   xegaSummaryPopulation.
 
+Version 1.0.0.15 (2026-05-22)
+
+- xegaObservePopulation: 
+  Number of genes with same fitness added as 9th value 
+  in statistics vector. Indicates premature convergence.
+

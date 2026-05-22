@@ -38,7 +38,8 @@ test_that("xegaObservePopulation (Start population OK",
           {
            pop10<-xegaInitPopulation(10, lFxegaGaGene)
            fit10<-unlist(lapply(pop10, function(x) {x$fit}))
-           expect_identical(xegaObservePopulation(fit10), rep(0,8))
+           print(xegaObservePopulation(fit10))
+           expect_identical(xegaObservePopulation(fit10), c(rep(0,8), 10))
           }
 )
 
