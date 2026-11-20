@@ -300,7 +300,9 @@ PparLapplyHet<-function(pop, EvalGene, lF) # nocov start
 #'@export
 rmpiLapply<-function(pop, EvalGene, lF)
 {
-   lF$Rmpi$mpi.parLapply(pop, FUN=EvalGene, lF=lF)
+#   cat("length", length(pop), "\n")
+#   cat("names", names(lF$RmpiFNS), "\n") 
+   lF$RmpiFNS$mpi.parLapply(pop, FUN=EvalGene, lF=lF)
 }
 
 #' Configure the the execution model for gene evaluation.
