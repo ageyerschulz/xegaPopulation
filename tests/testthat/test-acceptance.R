@@ -4,6 +4,8 @@ library(xegaGaGene)
 library(xegaPopulation)
 
 lFxegaGaGene$ReportEvalErrors<-function() {TRUE}
+lFxegaGaGene$debug<-function() {TRUE}
+
 
 test_that("AcceptNewGene OK",
           {

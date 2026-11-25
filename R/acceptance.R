@@ -83,7 +83,8 @@ AcceptBest<-function(OperatorPipeline, gene, lF)
 #' @param lF                  Local configuration.
 #'
 #' @return The new gene if it has at least equal performance as the 
-#'         old gene else the old gene.
+#'         old gene. Accept the new gene with a probability P decreasing with 
+#'         the temperature else accept the old gene.
 #'
 #' @references 
 #'      Kirkpatrick, S., Gelatt, C. D. J, and Vecchi, M. P. (1983):
@@ -103,6 +104,7 @@ AcceptBest<-function(OperatorPipeline, gene, lF)
 #' parm<-function(x){function() {return(x)}}
 #' lFxegaGaGene$Beta<-parm(1)
 #' lFxegaGaGene$TempK<-parm(10)
+#' lFxegaGaGene$debug<-parm(FALSE)
 #' OPpipe1<-function(g, lF){InitGene(lF)}
 #' g1<-lFxegaGaGene$EvalGene(InitGene(lFxegaGaGene), lFxegaGaGene)
 #' g2<-AcceptMetropolis(OPpipe1, g1, lFxegaGaGene)
@@ -115,8 +117,11 @@ AcceptMetropolis<-function(OperatorPipeline, gene, lF)
 	  warning("Accept Best: Evaluation failed. Gene: \n", newGene)
 	 }
   if(newGene$fit>=gene$fit) {return(newGene)}
-  d<-gene$fit-newGene$fit
-  if (runif(1) < exp(-d*lF$Beta()/lF$TempK()))  
+  d<-abs(gene$fit-newGene$fit)
+  temp<-max(lF$TempK(), 10^-100)
+  if (lF$debug())
+  {cat("Metropolis Temperature:", temp, "P:", exp(-d*lF$Beta()/temp) ,"\n")}
+  if (runif(1) < exp(-d*lF$Beta()/temp))  
   {return(newGene)}
   else {return(gene)}
    }
@@ -161,6 +166,7 @@ AcceptMetropolis<-function(OperatorPipeline, gene, lF)
 #' parm<-function(x){function() {return(x)}}
 #' lFxegaGaGene$Beta<-parm(1)
 #' lFxegaGaGene$TempK<-parm(10)
+#' lFxegaGaGene$debug<-parm(FALSE)
 #' set.seed(2)
 #' OPpipe1<-function(g, lF){InitGene(lF)}
 #' g1<-lFxegaGaGene$EvalGene(InitGene(lFxegaGaGene), lFxegaGaGene)
@@ -174,10 +180,13 @@ AcceptIVMetropolis<-function(OperatorPipeline, gene, lF)
 	  warning("Accept Best: Evaluation failed. Gene: \n", newGene)
 	  }
   if(newGene$fit>=gene$fit) {return(newGene)}
-  d<-gene$fit-newGene$fit
+  d<-abs(gene$fit-newGene$fit)
   # Individually Variable adaptive correction of temperature:
-  Tcorrected<-lF$TempK()*min(2,(1+((lF$CBestFitness()-gene$fit)/gene$fit)))
-  if (runif(1) < exp(-d*lF$Beta()/Tcorrected))  
+  temp<-lF$TempK()*min(2,(1+((abs(lF$CBestFitness()-gene$fit))/gene$fit)))
+  temp<-max(temp, 10^-100)
+  if (lF$debug())
+  {cat("MetropolisIV Temperature:", temp, "P:", exp(-d*lF$Beta()/temp) ,"\n")}
+  if (runif(1) < exp(-d*lF$Beta()/temp))  
   {return(newGene)}
   else {return(gene)}
    }

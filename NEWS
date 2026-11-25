@@ -128,3 +128,10 @@ Version 1.0.0.16 (2026-05-22)
 Version 1.0.0.17 (2026-10-01)
 
 - rmpiLapply: Use lF$RmpiFNS$mpi.parLapply (Bug fix).
+
+Version 1.0.0.18 (2026-11-24)
+
+- AcceptMetropolis(), AcceptMetropolisIV(): 
+       - Distance is absolute value of fitness differences.
+       - Temperature is bounded by 10^-100.
+

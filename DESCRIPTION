@@ -1,6 +1,6 @@
 Package: xegaPopulation 
 Title: Genetic Population Level Functions
-Version: 1.0.0.17
+Version: 1.0.0.18
 Authors@R: 
     person(given = "Andreas",
            family = "Geyer-Schulz",
